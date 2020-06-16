@@ -1,0 +1,27 @@
+\subsection{Protocol}
+通信するための約束事．
+IP/TCPなど．
+コンピューター間で同じものを使う必要あり．
+
+\subsection{OSI reference model}
+OSI: Open Systems Interconnection参照モデル．
+異機種間通信の基本．
+通信機能を階層構造で分割したモデル．
+\begin{itemize}
+    \item アプリケーションごとの固有規定
+    \item 文字コードなどデータ表現形式の規定
+    \item 通信確立・維持・終了の規定
+    \item ノード間転送の信頼性担保の規定
+    \item end2end通信のための規定
+    \item 直接接続ノード間通信のための規定
+    \item ビット列を電気信号に変換する規定
+\end{itemize}
+下に行くほど細かい話になる．
+上位層の処理情報はヘッダとして下位層に取り込まれる(カプセル化)
+
+\subsection{"hoge"cast}
+unicast: 1対1通信．
+multicast: 1対多通信．
+broadcast: 1対不特定多数通信(同じデータリンク内に限る)．
+※動画配信はmulticast．
+

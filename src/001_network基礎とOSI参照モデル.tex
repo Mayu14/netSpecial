@@ -1,0 +1,92 @@
+\subsection{ネットワークとは}
+\begin{enumerate}
+    \item 規模によるnetworkの分類
+    \begin{itemize}
+        \item \detail{LAN}{Local Area Network}
+        \begin{itemize}
+            \item 同じ建物内の機器間でデータをやりとり
+            \item 家・企業など
+        \end{itemize}
+        \item \detail{WAN}{Wide Area Network}
+        \begin{itemize}
+            \item 地理的に離れた機器間でデータをやりとり
+            \item 本社と支店，大学のキャンパスネットワークなど
+        \end{itemize}
+        \item Internet
+        \begin{itemize}
+            \item 全世界レベルで相互接続したネットワーク
+        \end{itemize}
+        \item イントラネット
+        \begin{itemize}
+            \item Internet標準技術で構築された企業内ネットワーク
+            \item 特定の組織内メンバーのみが閲覧可/メールの送受信可などの閉じたネット
+            \item プロトコルにTCP/IPを利用した電子メール, Webシステムなど
+            \item 外部接続する際はFire Wallなどを設置
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\subsection{ネットワークストレージとは}
+ストレージの接続形態はDAS,NAS,SANの3種
+\begin{enumerate}
+    \item \detail{DAS}{Direct Attached Storage}
+    \begin{itemize}
+        \item 1台のサーバなどに直接接続する形態，またストレージそのもの
+        \item 接続プロトコルはATA, SATA, SCSI, SAS
+        \item 接続に専門知識不要
+        \item 複数サーバでストレージ共有不可
+    \end{itemize}
+    \item \detail{NAS}{Network Attached Storage}
+    \begin{itemize}
+        \item ネットワークを介して接続する形態，またそのストレージそのもの
+        \item HDD, LAN-Interface, OSなどで構成されるファイルサーバ専用機
+        \item LAN接続型HDDとも
+        \item ファイルシステムを通じてストレージを利用
+    \end{itemize}
+    \item \detail{SAN}{Storage Area Network}
+    \begin{itemize}
+        \item ストレージとサーバ間をFiber Channelで接続したネットワーク
+        \item サーバと周辺機器が接続され高速伝送が可能
+        \item LANから独立したストレージ専用のネットワーク
+        \item データベース系含む幅広いアプリケーションに対応
+        \item 導入コスト大，高度な専門知識が必須
+        \item ストレージ装置そのものを共有する
+    \end{itemize}
+    \remark{EBMのDSUはSANなのか?}{SANはファイルシステムによる仲介を挟まない．そのため高速に動作するはず．またストレージの容量をフル活用できるはず．以上よりEBMのストレージとしてはSANが妥当なはず．}
+\end{enumerate}
+
+\subsection{Network Topology}
+\begin{enumerate}
+    \item 物理Topology(物理的な接続構成)
+    \item 論理Topology(データの流れ方を表す構成)
+    \item バス型Topology(物理)
+    \begin{itemize}
+        \item 1本の同軸ケーブルに複数ノードを接続
+        \item 両端に抵抗器(Teminator)を付けて信号の反射・乱れを防ぐ
+        \item 同軸ケーブルに障害発生→全部落ちる
+    \end{itemize}
+    \item スター型Topology(物理)
+    \begin{itemize}
+        \item ハブ(集線装置)に複数ノードを集約
+        \item 各ケーブルの障害の影響はそこで止まる
+        \item ハブに障害発生→全部落ちる
+        \item ハブ同士を接続→拡張スター型
+    \end{itemize}
+    \item リング型Topology(論理)
+    \begin{itemize}
+        \item 全ノードを環状に接続
+        \item リング上をデータが高速巡回
+        \item 1か所障害発生→全部落ちる
+        \item リングを増やして耐障害性向上→デュアルリング型
+    \end{itemize}
+    \item フルメッシュ型Topology
+    \begin{itemize}
+        \item 全ノードを相互接続
+        \item どこが落ちても影響広がらない→耐障害性大
+        \item 物理Topologyで実現→高コスト
+        \item 中心や複数のルータのみをメッシュ化→Partial Mesh型
+    \end{itemize}
+    \remark{EBMのTopologyはPartial Mesh型?}{Mesh化によるコスト<<パターンミス等によるコスト．信頼性・耐障害性が最優先．装置内のクラスター規模はそこまで大きくない．FullMeshの可能性も?}
+\end{enumerate}
+
+\subsection{Protocol}

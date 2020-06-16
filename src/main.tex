@@ -1,0 +1,52 @@
+%! Author = toyota.akitaka
+%! Date = 2020/06/09
+
+% Preamble
+\documentclass[uplatex,11pt,a4j]{jsarticle}
+\bibliographystyle{jplain}
+
+% Packages
+\usepackage{ascmac}
+\usepackage{siunitx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage[version=3]{mhchem}
+\usepackage{url}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx, setpagesize=false]{hyperref}
+\usepackage{here}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\graphicspath{{../src/}}
+
+\newcommand{\mbd}[1]{\mbox{\boldmath ${#1}$}}
+\newcommand{\detail}[2]{{#1}:~{#2}}
+
+\newcommand{\remark}[2]{%
+\begin{itembox}[l]{#1}
+    \textcolor{red}{#2}
+\end{itembox}%
+}
+
+\newcommand{\nidan}[2]{\begin{tabular}[c]{@{}l@{}}{#1}\\{#2}\end{tabular}}
+\newcommand{\sandan}[3]{\begin{tabular}[c]{@{}l@{}}{#1}\\{#2}\\{#3}\end{tabular}}
+
+\title{\vspace{-10mm}Network Specialist}
+\author{Akitaka TOYOTA}
+\date{\today}
+
+% Document
+\begin{document}
+    \maketitle
+
+    \section{network基礎とOSI参照モデル}
+    \input{../src/001_network基礎とOSI参照モデル}
+    \input{../src//001_memo}
+
+    \section{TCP/IP protocol}
+    \input{../src/002_memo}
+
+\end{document}

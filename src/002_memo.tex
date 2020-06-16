@@ -1,0 +1,139 @@
+\subsection{TCP/IP}
+Transmission Control Protocol / Internet Protocol．
+複数のプロトコル群の総称．
+
+\begin{table}[htbp]
+    \begin{center}
+        \caption{OSI参照モデルとの対応}
+        \begin{tabular}{ccc}
+            OSI参照モデル & TCP/IP階層モデル & Protocol \\ \hline
+            \sandan{アプリケーション層}{プレゼンテーション層}{セッション層} & アプリケーション層 & HTTP, SMTP, POP3, FTP,...\\ \hline
+            トランスポート層 & トランスポート層 & TCP, UDP \\ \hline
+            ネットワーク層 & ネットワーク層 & IP, ARP, ICMP, OSPF,... \\ \hline
+            \nidan{データリンク層}{物理層} & ネットワークインターフェース層 & Ethernet, PPP, ...\\ \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\subsection{IP}
+Internet Protocol．インターネット層で動作するプロトコル．主な特徴．
+\begin{itemize}
+    \item コネクションレス型通信
+    \begin{itemize}
+        \item コンピュータ間でコネクションを確立せずデータ伝送をはじめる
+        \item TCPを使えばコンピュータ間ではコネクション型通信になる
+    \end{itemize}
+    \item ベストエフォート型通信
+    \begin{itemize}
+        \item 通信について，最大の努力は尽くすが品質は保証しない
+        \item TCPを使えばパケット損失がないように見せられる
+    \end{itemize}
+    \item 階層型アドレッシング
+    \begin{itemize}
+        \item IPアドレス:IPプロトコルにより割り当てる論理アドレス
+        \item 所属グループ(ネットワーク部)，ネットワーク内での識別番号(ホスト部)から構成される
+    \end{itemize}
+\end{itemize}
+
+\subsection{ARP}
+Address Resolution Protocol．
+IPアドレスからEthernetのMACアドレスを取得するプロトコル．
+(セットで使うのに自動的な関係づけがない)
+
+\begin{itemize}
+    \item ARPの仕組み
+    \begin{itemize}
+        \item リクエスト：MACアドレスを知りたいノードのIPアドレスをブロードキャスト
+        \item リプライ：自信のIPと一致したノードはユニキャストで返す
+    \end{itemize}
+\end{itemize}
+
+\subsection{GARP}
+Gratuitous ARP．役割は以下の2つ．
+\begin{enumerate}
+    \item 自身のIPアドレスが重複していないか検出
+    \item ネットワーク機器上のARPキャッシュを更新
+\end{enumerate}
+
+\subsection{ARP table}
+ARPの情報はARPキャッシュで一定時間保存．保存場所がARP table．
+ARPはIPと同じネットワーク層で動作．ARPパケット．Ethernetフレームにカプセル化される．
+
+\subsection{ICMP}
+Internet Control Message Protocol．IPプロトコルのエラー通知・制御メッセージを転送するプロトコル．
+通信状況の確認用．ネットワーク層で動作(IP層よりは上位)
+メッセージの種類
+\begin{enumerate}
+    \item Query:問い合わせ
+    \begin{itemize}
+        \item 利用例：ping, tracerouteなど
+    \end{itemize}
+    \item Error:エラー通知
+\end{enumerate}
+
+\subsection{ping}
+ICMPを利用したネットワーク診断．デフォルトで4回コマンドを送信する．
+応答一覧
+\begin{enumerate}
+    \item Reply from:成功
+    \item Request time out:失敗
+    \begin{itemize}
+        \item ケーブル接続されてない
+        \item IPアドレス設定間違い
+        \item Firewall有効
+    \end{itemize}
+    \item Destination net unreachable
+    \begin{itemize}
+        \item そもそも相手のnetworkに到達できてない
+        \item ルータのアクセスリストでICMPが制限されている？
+    \end{itemize}
+    \item Destination host unreachable
+    \begin{itemize}
+        \item 相手のnetworkに到達したものの該当機器(host)に到達できない
+        \item ルータのルーティングテーブル上にホストまでの経路情報がない
+    \end{itemize}
+    \item TTL expired in transit
+    \begin{itemize}
+        \item 宛先に到達するまでに128台ものルータを経由して途中でデータが捨てられてしまった
+        \item 設定ミスによるルーティンググループが原因
+    \end{itemize}
+\end{enumerate}
+
+\subsection{TCP}
+Transmission Control Protocol．
+IPの上位プロトコル．
+トランスポート層で動作．
+IPとセッション層以上(HTTP,FTP,Telnetなど)との橋渡し役．
+信頼性の高い通信用(UDPは高速性重視)
+
+\begin{enumerate}
+    \item ポート番号を使用
+    \begin{itemize}
+        \item 通信先アプリケーションを特定する番号
+        \begin{table}
+            \centering
+            \caption{port番号のリスト}
+            \label{tab:tcp_port}
+            \begin{tabular}{ccc}
+                タイプ & 範囲 & 説明 \\ \hline
+                well-known & 0~1023 & IANAで管理．サーバーのアプリケーション用 \\
+                登録済み & 1024~49151 & IANAで管理．独自作成アプリケーション用 \\
+                ダイナミック & 49152~65535 & クライアント側アプリケーション用 \\
+            \end{tabular}
+        \end{table}
+    \end{itemize}
+    \item コネクション確立・維持・切断
+    \begin{itemize}
+        \item 3way handshake(通信開始時)
+        \begin{enumerate}
+            \item こちらからの接続要求
+            \item 相手からの接続確認
+            \item こちらから接続応答
+        \end{enumerate}
+    \end{itemize}
+    \item 順序制御
+    \item 再送制御
+    \item ウィンドウ制御
+    \item フロー制御
+\end{enumerate}
+
